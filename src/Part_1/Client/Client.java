@@ -77,7 +77,6 @@ public class Client {
         }
 
     }
-
     private void is_done(){
         try{
             String str = in.readLine();

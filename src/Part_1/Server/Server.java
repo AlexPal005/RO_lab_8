@@ -16,7 +16,7 @@ public class Server {
     private Socket sock = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
-    private Airport airport;
+    private ExecutorAirportImpl airport;
     public void start(final int port){
         try {
             server = new ServerSocket(port);
@@ -34,7 +34,7 @@ public class Server {
     }
     public Server(){
         try{
-            airport = new Airport();
+            airport = new ExecutorAirportImpl();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

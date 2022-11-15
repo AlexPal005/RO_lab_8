@@ -2,10 +2,10 @@ package lab_7;
 
 import java.sql.*;
 
-public class Airport{
+public class ExecutorAirportImpl {
     private Connection connection;
     private Statement statement;
-    public Airport() throws Exception{
+    public ExecutorAirportImpl() throws Exception{
         Class.forName("com.mysql.cj.jdbc.Driver");
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/airport", "root", "rudenko1234567");
         statement = connection.createStatement();
