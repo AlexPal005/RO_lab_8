@@ -1,6 +1,6 @@
 package Part_2.Client;
 
-import Part_2.Intarface.ExecutorAirport;
+import Part_2.Inteface.ExecutorAirport;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

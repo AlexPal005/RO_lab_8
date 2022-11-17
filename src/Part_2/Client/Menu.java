@@ -1,15 +1,21 @@
 package Part_2.Client;
 
 
-import Part_2.Intarface.ExecutorAirport;
+import Part_2.Inteface.Airline;
+import Part_2.Inteface.AirlineTrip;
+import Part_2.Inteface.ExecutorAirport;
+import Part_2.Inteface.Trip;
 
+import java.io.*;
 import java.rmi.RemoteException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
-public class Menu {
+public class Menu{
     private ExecutorAirport executor_airport;
     private Scanner in;
     public Menu(ExecutorAirport executor_airport){
@@ -150,80 +156,52 @@ public class Menu {
         System.out.println("Уведіть id рейсу, який потрібно показати: ");
         int id = in.nextInt();
         in.nextLine();
-        ResultSet res = executor_airport.show_trip(id);
+        executor_airport.show_trip(id);
         try{
-            if(res.next()){
-                int id_res = res.getInt("id_trip");
-                String city_to =  res.getString("city_to");
-                String city_from =  res.getString("city_from");
-                double price = res.getDouble("price");
-                int id_airline = res.getInt("id_airl");
-                System.out.println("Id:" + id_res);
-                System.out.println("Місто прибуття: " + city_to);
-                System.out.println("Місто відправлення: " + city_from);
-                System.out.println("Ціна квитка: " + price);
-                System.out.println("Id авіакомпанії : " + id_airline);
-            }
-            else{
-                System.out.println("Помилка!");
-            }
-        } catch (SQLException e) {
+           Trip trip = executor_airport.show_trip(id);
+            // print result
+            int id_res = trip.getCode();
+            String city_to =  trip.getCity_to();
+            String city_from =  trip.getCity_from();
+            double price = trip.getPrice();
+            int id_airline = trip.getNumber_airline();
+            System.out.println("Id:" + id_res);
+            System.out.println("Місто прибуття: " + city_to);
+            System.out.println("Місто відправлення: " + city_from);
+            System.out.println("Ціна квитка: " + price);
+            System.out.println("Id авіакомпанії : " + id_airline);
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     private void get_all_airl_trips() throws RemoteException{
-        ResultSet res = executor_airport.get_all();
-        int prev_id_airline = 0;
-        try{
-            while(res.next()){
-                int id_airline = res.getInt("id_airline");
-                if(id_airline != prev_id_airline){
-                    String name = res.getString("name");
-                    System.out.println(id_airline + " " + name);
-                }
-                prev_id_airline = id_airline;
-                if(res.getInt("id_trip") != 0){
-                    System.out.print("\t" + res.getInt("id_trip") + " ");
-                    System.out.print( res.getString("city_from") + " ");
-                    System.out.print(res.getString("city_to") + " ");
-                    System.out.print(res.getDouble("price") + " ");
-                    System.out.print(res.getInt("id_airl") + "\n");
+        AirlineTrip airlineTrip = executor_airport.get_all();
+        List<Airline> airlines = airlineTrip.getAirlines();
+        List<Trip> trips = airlineTrip.getTrips();
+
+        for (int i = 0; i < airlines.size(); i++) {
+            System.out.println(airlines.get(i));
+            for (int j = 0; j < trips.size(); j++) {
+                if(airlines.get(i).getCode() == trips.get(j).getNumber_airline()){
+                    System.out.println(trips.get(j));
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
     private void get_all_airlines() throws RemoteException{
-        ResultSet res = executor_airport.get_all_airlines();
-        try{
-            while(res.next()){
-                System.out.print(res.getInt("id_airline") +" " + res.getString("name") + "\n");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        List<Airline> airlines = executor_airport.get_all_airlines();
+        for (int i = 0; i < airlines.size(); i++) {
+            System.out.println(airlines.get(i));
         }
     }
     private void get_trips_by_name_airline() throws RemoteException{
         System.out.println("Уведіть назву авіакомпанії: ");
         String name = in.nextLine();
-        ResultSet res = executor_airport.get_trips_by_airline(name);
-        try{
-            if(res.next()){
-                System.out.println(res.getInt("id_airline") + " " + res.getString("name") );
-                do{
-                    System.out.print(res.getInt("id_trip") + " ");
-                    System.out.print(res.getString("city_from") + " ");
-                    System.out.print(res.getString("city_to") + " ");
-                    System.out.print(res.getDouble("price") + " ");
-                    System.out.println(res.getInt("id_airl"));
-                }while(res.next());
-            }
-            else{
-                System.out.println("Не знайдено!");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        List<Trip> trips= executor_airport.get_trips_by_airline(name);
+        System.out.println(name);
+        for (int j = 0; j < trips.size(); j++) {
+            System.out.println(trips.get(j));
         }
 
     }
