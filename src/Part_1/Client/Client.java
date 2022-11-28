@@ -32,46 +32,44 @@ public class Client {
             int number_menu = scanner.nextInt();
 
             switch (number_menu) {
-                case (1):
+                case (1) -> {
                     String q = number_menu + "#" + menu.add_airline();
                     out.println(q);
                     is_done();
-                    break;
-                case (2):
+                }
+                case (2) -> {
                     out.println(number_menu + "#" + menu.delete_airline());
                     is_done();
-                    break;
-                case (3):
+                }
+                case (3) -> {
                     out.println(number_menu + "#" + menu.add_trip());
                     is_done();
-                    break;
-                case (4):
+                }
+                case (4) -> {
                     out.println(number_menu + "#" + menu.delete_trip());
                     is_done();
-                    break;
-                case (5):
+                }
+                case (5) -> {
                     out.println(number_menu + "#" + menu.edit_trip());
                     is_done();
-                    break;
-                case (6):
+                }
+                case (6) -> {
                     out.println(number_menu + "#" + menu.search_trip_by_id());
                     show_set_trips();
-                    break;
-                case (7):
+                }
+                case (7) -> {
                     out.println(number_menu);
                     show_set_all();
-                    break;
-                case (8):
+                }
+                case (8) -> {
                     out.println(number_menu);
                     show_set_all_airlines();
-                    break;
-                case (9):
+                }
+                case (9) -> {
                     out.println(number_menu + "#" + menu.get_trips_by_name_airline());
                     show_set_trips();
-                    break;
-                default:
-                    System.out.println("Уведіть номер меню!");
-                    break;
+                }
+                default -> System.out.println("Уведіть номер меню!");
             }
 
         }

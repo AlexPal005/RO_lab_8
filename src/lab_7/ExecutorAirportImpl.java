@@ -97,8 +97,7 @@ public class ExecutorAirportImpl {
         try{
             String sql_command = "SELECT * FROM trips INNER JOIN airlines ON airlines.name =" +"\"" + name + "\"" + "\n" +
                                  "WHERE airlines.id_airline = trips.id_airl;";
-            ResultSet res = statement.executeQuery(sql_command);
-            return res;
+            return statement.executeQuery(sql_command);
         }catch(SQLException e){
             throw new RuntimeException();
         }
